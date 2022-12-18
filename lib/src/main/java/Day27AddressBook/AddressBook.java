@@ -45,6 +45,30 @@ public class AddressBook {
 			System.out.println("Contact name already exists");
 		} else {
 			currentAddressBook.add(person);
+			// add to city contact list
+			String city = person.getCity();
+			ArrayList<ContactPerson> list;
+			if (cityContactList.containsKey(city)) {
+				list = cityContactList.get(city);
+				list.add(person);
+
+			} else {
+				list = new ArrayList<>();
+				list.add(person);
+				cityContactList.put(city, list);
+			}
+
+			// add to State contact list
+			String state = person.getState();
+			if (stateContactList.containsKey(state)) {
+				list = stateContactList.get(state);
+				list.add(person);
+
+			} else {
+				list = new ArrayList<>();
+				list.add(person);
+				stateContactList.put(state, list);
+			}
 			System.out.println("contact added to AddressBook " + currentAddressBookName);
 			System.out.println(person);
 		}
@@ -63,7 +87,6 @@ public class AddressBook {
 		boolean isContactFound = false;
 		System.out.println("Enter Name to edit Contact");
 		String name = sc.next();
-
 		for (ContactPerson contactPerson : currentAddressBook) { // iterate over the arraylist
 			if (name.equalsIgnoreCase(contactPerson.getFirstName())) {
 				isContactFound = true;
@@ -262,6 +285,26 @@ public class AddressBook {
 		}
 	}
 
+	void showContactCount() {
+		System.out.println("1.Count of City \n2.Count of State");
+		int option = sc.nextInt();
+		switch (option) {
+		case 1:
+			System.out.println("Enter city :");
+			String city = sc.next();
+			System.out.println("Count: " + cityContactList.get(city).size());
+			break;
+		case 2:
+			System.out.println("Enter State :");
+			String state = sc.next();
+			System.out.println("Count: " + stateContactList.get(state).size());
+			break;
+		default:
+			showContactCount();
+			break;
+		}
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book program");// display welcome message
 		AddressBook addressBook = new AddressBook();// creating object of address book
@@ -272,7 +315,7 @@ public class AddressBook {
 			System.out.println("*************\n" + addressBook.addressBookList.keySet());
 			System.out.println("current AddressBook Name: " + addressBook.currentAddressBookName);
 			System.out.println(
-					"************\nSelect Option :\n1.Add Contact\n2.Edit Contact\n3.Delete Contact\n4.View contacts\n5.Add New Address Book\n6.Select Address Book\n7.Search contact\n8.Exit");
+					"************\nSelect Option :\n1.Add Contact\n2.Edit Contact\n3.Delete Contact\n4.View contacts\n5.Add New Address Book\n6.Select Address Book\n7.Search contact\n8.Show contact count\n9.Exit");
 			int option = sc.nextInt();
 			switch (option) { // select option
 			case 1:
@@ -298,6 +341,9 @@ public class AddressBook {
 				addressBook.searchContact();
 				break;
 			case 8:
+				addressBook.showContactCount();
+				break;
+			case 9:
 				flag1 = false;
 				break;
 			default:
