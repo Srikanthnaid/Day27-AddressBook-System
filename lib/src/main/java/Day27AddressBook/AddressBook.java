@@ -285,6 +285,7 @@ public class AddressBook {
 		}
 	}
 
+	// Get number of contact persons
 	void showContactCount() {
 		System.out.println("1.Count of City \n2.Count of State");
 		int option = sc.nextInt();
@@ -292,17 +293,38 @@ public class AddressBook {
 		case 1:
 			System.out.println("Enter city :");
 			String city = sc.next();
-			System.out.println("Count: " + cityContactList.get(city).size());
+			System.out.println("Count : " + cityContactList.get(city).size());// size of city
 			break;
 		case 2:
 			System.out.println("Enter State :");
 			String state = sc.next();
-			System.out.println("Count: " + stateContactList.get(state).size());
+			System.out.println("Count : " + stateContactList.get(state).size());// size of state
 			break;
 		default:
 			showContactCount();
 			break;
 		}
+	}
+
+	/*
+	 * sort contact sort entries in address book alphabetically by person's name
+	 */
+	void sortContact() {
+		List<ContactPerson> allContacts = getAllContacts();// call method and stored in allContacts variable
+		List<ContactPerson> sortedContacts;
+
+		System.out.println("Sort By Name : ");
+		sortedContacts = allContacts.stream().sorted((x, y) -> x.getFirstName().compareTo(y.getFirstName()))
+				.collect(Collectors.toList());// sort by name
+		sortedContacts.forEach(x -> System.out.println(x));
+	}
+
+	List<ContactPerson> getAllContacts() {
+		List<ContactPerson> allContacts = new ArrayList<>();// create object of list
+		for (String key : addressBookList.keySet()) {// iterate loop
+			allContacts.addAll(addressBookList.get(key));
+		}
+		return allContacts;
 	}
 
 	public static void main(String[] args) {
@@ -315,7 +337,7 @@ public class AddressBook {
 			System.out.println("*************\n" + addressBook.addressBookList.keySet());
 			System.out.println("current AddressBook Name: " + addressBook.currentAddressBookName);
 			System.out.println(
-					"************\nSelect Option :\n1.Add Contact\n2.Edit Contact\n3.Delete Contact\n4.View contacts\n5.Add New Address Book\n6.Select Address Book\n7.Search contact\n8.Show contact count\n9.Exit");
+					"************\nSelect Option :\n1.Add Contact\n2.Edit Contact\n3.Delete Contact\n4.View contacts\n5.Add New Address Book\n6.Select Address Book\n7.Search contact\n8.Show contact count\n9.Sort Contact\n10.Exit");
 			int option = sc.nextInt();
 			switch (option) { // select option
 			case 1:
@@ -344,6 +366,9 @@ public class AddressBook {
 				addressBook.showContactCount();
 				break;
 			case 9:
+				addressBook.sortContact();
+				break;
+			case 10:
 				flag1 = false;
 				break;
 			default:
