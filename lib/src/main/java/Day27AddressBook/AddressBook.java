@@ -103,6 +103,20 @@ public class AddressBook {
 		addressBook1.stream().forEach(a -> System.out.println(a));
 	}
 
+	public void deleteContact() {
+		// ContactPerson person = new ContactPerson();
+		System.out.print("Enter First Name:");
+		String editName = sc.next();
+		boolean result = addressBook1.stream().anyMatch(a -> addressBook1.contains(editName) == equals(addressBook1));
+		System.out.println(result);// true
+		if (result == true)
+			addressBook1.remove(person);
+		System.out.println("Delete Successfully!");
+		System.out.println(addressBook1);
+		if (!true)
+			System.out.println("Name not existing in Addressbook");
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book program");
 		AddressBook addressBook = new AddressBook();
@@ -112,12 +126,13 @@ public class AddressBook {
 		while (flag1) {
 
 			System.out.println("******************\nSelect Option :");
-			System.out.println("1.Add Contact\n2.Edit Contact\n3.Exit");
+			System.out.println("1.Add Contact\n2.Edit Contact\n3.Delete Contact \n4.Exit");
 			int option = sc.nextInt();
 			switch (option) {
 			case 1 -> addressBook.addContact();
 			case 2 -> addressBook.editContact();
-			case 3 -> System.exit(0);
+			case 3 -> addressBook.deleteContact();
+			case 4 -> System.exit(0);
 			default -> System.out.println("invalid input");
 			}
 		}
