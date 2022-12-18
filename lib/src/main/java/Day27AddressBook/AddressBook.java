@@ -4,8 +4,16 @@ import java.util.Scanner;
 import java.util.*;
 
 public class AddressBook {
-
+	/**
+	 * The Scanner class is used to get user input, and it is found in the java.util
+	 * package. create a scanner class object
+	 */
 	Scanner sc = new Scanner(System.in);
+	/**
+	 * create a array list object The ArrayList class of the Java collections
+	 * framework provides the functionality of resizable-arrays. It implements the
+	 * List interface.
+	 */
 	ArrayList<ContactPerson> addressBook1 = new ArrayList<>();
 	ContactPerson person = new ContactPerson();
 
