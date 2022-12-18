@@ -10,6 +10,9 @@ public class AddressBook {
 	static ArrayList<ContactPerson> currentAddressBook;// declare variable
 	static String currentAddressBookName;// declare variable
 
+	static HashMap<String, ArrayList<ContactPerson>> cityContactList = new HashMap<>();
+	static HashMap<String, ArrayList<ContactPerson>> stateContactList = new HashMap<>();
+
 	public ContactPerson createContact() {
 		ContactPerson person = new ContactPerson();// creating object of ContactPerson class
 		System.out.print("Enter First Name: ");
@@ -151,17 +154,6 @@ public class AddressBook {
 	}
 
 	/*
-	 * Display contact
-	 */
-	void displayContact(ArrayList addressBook) {
-		System.out.println("Contacts: ");
-		for (Object p : addressBook) {
-			ContactPerson person = (ContactPerson) p;
-			System.out.println(person);
-		}
-	}
-
-	/*
 	 * search contact by city and state
 	 */
 	void searchContact() {
@@ -206,6 +198,70 @@ public class AddressBook {
 		}
 	}
 
+	// Initialize city and state
+	public void initializeCityAndStateContactList() {
+		for (String key : addressBookList.keySet()) {
+			for (ContactPerson person : addressBookList.get(key)) {
+				String city = person.getCity();
+				if (cityContactList.containsKey(city)) {
+					cityContactList.get(city).add(person);
+				} else {
+					ArrayList<ContactPerson> list = new ArrayList<>();
+					list.add(person);
+					cityContactList.put(city, list);
+				}
+
+				String state = person.getState();
+				if (stateContactList.containsKey(state)) {
+					stateContactList.get(state).add(person);
+				} else {
+					ArrayList<ContactPerson> list = new ArrayList<>();
+					list.add(person);
+					stateContactList.put(state, list);
+				}
+			}
+		}
+	}
+
+	// view contacts
+	void viewContacts() {
+		initializeCityAndStateContactList();// calling method
+		System.out.println("*****************************\n1.View by City \n2.View by State");
+		switch (sc.nextInt()) {
+		case 1:
+			viewContactByCity();// calling method
+			break;
+		case 2:
+			viewContactByState();// calling method
+			break;
+		default:
+			viewContacts();// calling method
+			break;
+		}
+	}
+
+	// view contact by city
+	void viewContactByCity() {
+		System.out.println("Enter City:");
+		String city = sc.next();
+		for (String key : cityContactList.keySet()) {// returns a set view of the keys contained in map
+			if (key.equalsIgnoreCase(city)) {
+				cityContactList.get(key).stream().forEach(person -> System.out.println(person));
+			}
+		}
+	}
+
+	// view contact by state
+	void viewContactByState() {
+		System.out.println("Enter State:");
+		String state = sc.next();
+		for (String key : stateContactList.keySet()) {// returns a set view of the keys contained in map
+			if (key.equalsIgnoreCase(state)) {
+				stateContactList.get(state).stream().forEach(person -> System.out.println(person));
+			}
+		}
+	}
+
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book program");// display welcome message
 		AddressBook addressBook = new AddressBook();// creating object of address book
@@ -216,7 +272,7 @@ public class AddressBook {
 			System.out.println("*************\n" + addressBook.addressBookList.keySet());
 			System.out.println("current AddressBook Name: " + addressBook.currentAddressBookName);
 			System.out.println(
-					"************\nSelect Option :\n1.Add Contact\n2.Edit Contact\n3.Delete Contact\n4.Display contact\n5.Add New Address Book\n6.Select Address Book\n7.Search contact\n8.Exit");
+					"************\nSelect Option :\n1.Add Contact\n2.Edit Contact\n3.Delete Contact\n4.View contacts\n5.Add New Address Book\n6.Select Address Book\n7.Search contact\n8.Exit");
 			int option = sc.nextInt();
 			switch (option) { // select option
 			case 1:
@@ -230,7 +286,7 @@ public class AddressBook {
 				addressBook.deleteContact();
 				break;
 			case 4:
-				addressBook.displayContact(currentAddressBook);
+				addressBook.viewContacts();
 				break;
 			case 5:
 				addressBook.addNewAddressBook();
