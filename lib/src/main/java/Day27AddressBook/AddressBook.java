@@ -128,20 +128,34 @@ public class AddressBook {
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book program");
 		AddressBook addressBook = new AddressBook();
+		MultipleAddressBooks book = new MultipleAddressBooks();
 		Scanner sc = new Scanner(System.in);
 
 		boolean flag1 = true;
 		while (flag1) {
-
 			System.out.println("******************\nSelect Option :");
-			System.out.println("1.Add Contact\n2.Edit Contact\n3.Delete Contact \n4.Exit");
+			System.out.println("Enter \n 1. To add The new AddressBook\n 2. To add contact in AddressBook\n "
+					+ "3. To edit the contact in AddressBook\n 4. To delete the contact in AddressBook\n 5. To delete the AddressBook\n "
+					+ "6. To Print the AddressBook\n 7. To Print the contacts in AddressBook\n 0. to exit");
 			int option = sc.nextInt();
 			switch (option) {
-			case 1 -> addressBook.addContact();
-			case 2 -> addressBook.editContact();
-			case 3 -> addressBook.deleteContact();
-			case 4 -> System.exit(0);
-			default -> System.out.println("invalid input");
+			case 1 -> book.addAddressBook();
+
+			case 2 -> book.addContact();
+
+			case 3 -> book.editContactInBook();
+
+			case 4 -> book.deleteContactInBook();
+
+			case 5 -> book.deleteAddressBook();
+
+			case 6 -> book.printBook();
+
+			case 7 -> book.printContactsInBook();
+
+			case 0 -> System.exit(0);
+
+			default -> System.out.println("Enter the wrong input");
 			}
 		}
 	}
